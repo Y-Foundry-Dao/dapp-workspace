@@ -40,7 +40,7 @@ const myProfileState: MyProfile = {
 export default function PageHttpGet() {
   const address = useWallet();
   console.log('axios test wallet: ' + address);
-
+  const [renderCount, setRenderCount] = useState(0);
   const [myProfile, setMyProfile] = useState(myProfileState);
   const profileUrl = PATH_PROFILE + address + PATH_PROFILE_SUFFIX;
   const profilePfpUrl = PATH_PROFILE_PFP + address + PATH_PROFILE_PFP_SUFFIX;
@@ -49,6 +49,7 @@ export default function PageHttpGet() {
   console.log('profilePfpUrl: ' + profilePfpUrl);
 
   useEffect(() => {
+    setRenderCount(prevRenderCount => prevRenderCount + 1);
     async function fetchData() {
       try {
         const response = await axios.get(profileUrl, {
@@ -75,7 +76,7 @@ export default function PageHttpGet() {
       }
     }
     fetchData();
-  });
+  }, []);
 
   if (!myProfile) {
     return <p>Loading or File Missing...</p>;
@@ -83,6 +84,8 @@ export default function PageHttpGet() {
 
   return (
     <div>Axios Test
+      <h3>Render Count: {renderCount}</h3>
+
       {myProfile && (
         <p>
           <h1>{ myProfile.name } </h1>
