@@ -21,6 +21,8 @@ export default function PageHttpGet() {
       <h1>Attached Wallet Profile</h1>
       <br />
       <h2>{ profile.name }</h2>
+      <img src={profilePfpUrl} alt="pfp" width="100px" />
+      <br /><br />
       Wallet Address: {address}
       <br /><br />
       Profile URL: {profileUrl}
