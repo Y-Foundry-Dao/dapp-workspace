@@ -18,6 +18,6 @@ export default function useWallet() {
         }
 
     }, [connectedWallet, setWalletAddress]);
-    console.log('walletAddress: ' + JSON.stringify(walletAddress));
+    console.log('Station Connected to: ' + connectedWallet?.walletAddress);
     return connectedWallet?.walletAddress;
 }
