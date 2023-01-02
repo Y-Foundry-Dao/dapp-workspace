@@ -16,6 +16,11 @@ const navLinks = [
     href: "/recoil"
   },  
   {
+    label: "Selectors",
+    icon: "move_up",
+    href: "/selectors"
+  }, 
+  {
     label: "Form",
     icon: "edit_note",
     href: "/form"

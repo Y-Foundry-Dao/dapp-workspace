@@ -12,6 +12,7 @@ import PageAxios from '@pages/Axios';
 import PageFetch from '@pages/Fetch';
 import PageState from '@pages/State';
 import PageRecoil from '@pages/Recoil';
+import PageSelectors from '@pages/Selectors';
 
 export default function MainRoutes() {
   return (
@@ -26,6 +27,7 @@ export default function MainRoutes() {
       <Route path='/axios' element={<PageAxios />}></Route>
       <Route path='/fetch' element={<PageFetch />}></Route>
       <Route path='/state' element={<PageState />}></Route>
+      <Route path='/selectors' element={<PageSelectors />}></Route>
       <Route path='/recoil' element={<PageRecoil />}></Route>
       <Route path="*" element={<NoMatch />} />
     </Routes>
