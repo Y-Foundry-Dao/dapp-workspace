@@ -56,6 +56,11 @@ const navLinks = [
     href: "/button"
   },
   {
+    label: "Connect with State",
+    icon: "connect_without_contact",
+    href: "/connect-with-state"
+  },
+  {
     label: "Connect",
     icon: "connect_without_contact",
     href: "/connect"

@@ -1,0 +1,24 @@
+import useChainInfo from '@hooks/useChainInfo';
+import { chainDeploy } from './variables/blockchain';
+import { useRecoilValueLoadable } from 'recoil';
+import { useWallet } from '@terra-money/wallet-provider';
+
+export const getChainDeploy = (
+  chain: string,
+  field: 'lcd' | 'name' | 'forge' | 'token'
+) => {
+  const chainConfig = chainDeploy.find((item) => item.chainID === chain);
+  if (chainConfig && chainConfig.config && chainConfig.config[0]) {
+    const result: string = chainConfig.config[0][field];
+    return result || '';
+  }
+  return '';
+};
+
+export const GetCurrentChainID = () => {
+  const { network } = useWallet();
+  const chainID = network.chainID;
+  return chainID;
+};
+
+export default getChainDeploy;

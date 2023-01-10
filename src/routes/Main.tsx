@@ -13,6 +13,7 @@ import PageFetch from '@pages/Fetch';
 import PageState from '@pages/State';
 import PageRecoil from '@pages/Recoil';
 import PageSelectors from '@pages/Selectors';
+import PageConnectWithState from '@pages/ConnectWithState';
 
 export default function MainRoutes() {
   return (
@@ -20,6 +21,7 @@ export default function MainRoutes() {
       <Route path="/" element={<App />}></Route>
       <Route path="/button" element={<Button />}></Route>
       <Route path="/connect" element={<Connect />}></Route>
+      <Route path="/connect-with-state" element={<PageConnectWithState />}></Route>
       <Route path="/profile" element={<PageProfile />}></Route>
       <Route path='/props' element={<Properties />}></Route>
       <Route path='/form' element={<Form />}></Route>

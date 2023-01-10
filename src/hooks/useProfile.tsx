@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
 import { profileState } from '@recoil/atoms';
 import { PATH_PROFILE, PATH_PROFILE_PFP, PATH_PROFILE_PFP_SUFFIX, PATH_PROFILE_SUFFIX } from 'utilities/variables';
@@ -38,7 +38,7 @@ export default function useProfile(address: any) {
                 }
             }
         fetchData();
-        }, [profileUrl]);
+        }, [profileUrl, setProfile]);
         console.log('useProfile Loaded:', profile);
         return profile;
 }

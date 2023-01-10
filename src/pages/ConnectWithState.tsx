@@ -1,7 +1,7 @@
-// original connect component
-import Connect from '@components/terraStation/connect';
+import Connect from '@components/WalletConnect';
 
 export default function pageConnect() {
+  
   return (
     <>
       <p>
