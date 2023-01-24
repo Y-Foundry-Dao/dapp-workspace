@@ -1,6 +1,4 @@
-import useChainInfo from '@hooks/useChainInfo';
 import { chainDeploy } from './variables/blockchain';
-import { useRecoilValueLoadable } from 'recoil';
 import { useWallet } from '@terra-money/wallet-provider';
 
 export const getChainDeploy = (
