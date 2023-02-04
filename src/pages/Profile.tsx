@@ -1,10 +1,10 @@
 
 import { PATH_PROFILE, PATH_PROFILE_PFP, PATH_PROFILE_PFP_SUFFIX, PATH_PROFILE_SUFFIX } from 'utilities/variables';
-import useWallet from '@hooks/useWallet';
+import { useWallet } from '@terra-money/wallet-provider';
 import useProfile from '@hooks/useProfile';
 
 export default function PageHttpGet() {
-  const address = useWallet();
+  const address = "terra1upleyfx24jehpgfy9d79d9scps20ffuf6vy706";
   const profile = useProfile(address) as any;
   console.log ('loaded profile: ' + JSON.stringify(profile));
 

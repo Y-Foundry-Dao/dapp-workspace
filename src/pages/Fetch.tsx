@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PATH_PROFILE, PATH_PROFILE_PFP, PATH_PROFILE_PFP_SUFFIX, PATH_PROFILE_SUFFIX } from 'utilities/variables';
-import useWallet from '@hooks/useWallet';
+import { useWallet } from '@terra-money/wallet-provider';
 import { walletAddress } from '@recoil/atoms';
 
 type MyProfile = {

@@ -1,21 +1,22 @@
-import { useEffect, useState } from 'react';
-import { useWallet } from '@terra-money/wallet-provider';
-import { terra } from 'utilities/lcd';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { currentBlockHeightAtom } from 'recoil/chain/atoms';
-import { currentChainIDAtom } from 'recoil/chain/atoms';
-import { currentContractForgeAtom } from 'recoil/chain/atoms';
-import { currentContractGovTokenAtom } from 'recoil/chain/atoms';
-import getChainDeploy from '@utilities/getValues';
-import { GetCurrentChainID } from '@utilities/getValues';
+import { useEffect } from 'react';
+import { useRecoilState, useSetRecoilState } from 'recoil';
+import {
+  currentBlockIntervalAtom,
+  currentBlockHeightAtom,
+  currentChainIDAtom,
+  currentContractForgeAtom,
+  currentContractGovTokenAtom
+} from '@recoil/chainInfo/atoms';
+import { useLCDClient, useWallet } from '@terra-money/wallet-provider';
+import { getChainDeploy, GetCurrentChainID } from '@utilities/getValues';
 
 const useChainInfo = () => {
-  const { network } = useWallet();
-  const chainID = network.chainID;
-
+  const lcd = useLCDClient();
+  const chainID = GetCurrentChainID();
   const [currentBlockHeight, setCurrentBlockHeight] = useRecoilState<any>(
     currentBlockHeightAtom
   );
+  const setCurrentBlockInterval = useSetRecoilState(currentBlockIntervalAtom);
   const [currentChainID, setCurrentChainID] =
     useRecoilState<string>(currentChainIDAtom);
   const [currentContractForge, setCurrentContractForge] =
@@ -23,34 +24,48 @@ const useChainInfo = () => {
   const [currentContractGovToken, setCurrentContractGovToken] =
     useRecoilState<string>(currentContractGovTokenAtom);
 
-  const setCurrentChainIDToState = async () => {
-    const chainID = await GetCurrentChainID();
-    setCurrentChainID(chainID);
+  const getCurrentChainID = async () => {
+    const currentChainID: string = GetCurrentChainID();
+    return currentChainID;
   };
-
-  const getCurrentContractForge = async () => {
-    const contractForge = getChainDeploy(currentChainID, 'forge');
+  const setCurrentChainIDToState = async () => {
+    const currentChainID = await getCurrentChainID();
+    setCurrentChainID(currentChainID);
+  };
+  const getCurrentContractForge = () => {
+    const contractForge = String(getChainDeploy(chainID, 'forge'));
     return contractForge;
   };
-
-  const setCurrentContractForgeToState = async () => {
-    const contractForge = await getCurrentContractForge();
+  const setCurrentContractForgeToState = () => {
+    const contractForge = getCurrentContractForge();
     setCurrentContractForge(contractForge);
   };
-
-  const getCurrentContractGovToken = async () => {
-    const contractGovToken = getChainDeploy(currentChainID, 'token');
+  const getCurrentContractGovToken = () => {
+    const contractGovToken = String(getChainDeploy(chainID, 'token'));
     return contractGovToken;
   };
 
-  const setCurrentContractGovTokenToState = async () => {
-    const contractGovToken = await getCurrentContractGovToken();
+  const setCurrentContractGovTokenToState = () => {
+    const contractGovToken = getCurrentContractGovToken();
     setCurrentContractGovToken(contractGovToken);
+  };
+
+  const getCurrentBlockInterval = () => {
+    const newBlockInterval = Number(getChainDeploy(chainID, 'interval'));
+    if (typeof newBlockInterval !== 'number') {
+      console.error('blockInterval is not a number: ', newBlockInterval);
+    }
+    return newBlockInterval;
+  };
+
+  const setCurrentBlockIntervalToState = () => {
+    const blockInterval = getCurrentBlockInterval();
+    setCurrentBlockInterval(blockInterval);
   };
 
   const getCurrentBlockHeight = async () => {
     const newBlockHeight = Number.parseInt(
-      (await terra.tendermint.blockInfo()).block.header.height
+      (await lcd.tendermint.blockInfo(chainID)).block.header.height
     );
     return newBlockHeight;
   };
@@ -61,26 +76,26 @@ const useChainInfo = () => {
   };
 
   useEffect(() => {
-    console.log('{USE CHAIN INFO} useWallet: ', network);
-    console.log('{USE CHAIN INFO} chainID: ', chainID);
+    setCurrentBlockIntervalToState();
+    setCurrentBlockHeightToState();
+    setCurrentContractGovTokenToState();
     setCurrentChainIDToState();
     setCurrentContractForgeToState();
-    setCurrentContractGovTokenToState();
-  }),
-    [chainID];
+  }, []);
 
   useEffect(() => {
-    console.warn('running every block');
+    const blockInterval = getCurrentBlockInterval();
     const interval = setInterval(async () => {
       return setCurrentBlockHeight(await getCurrentBlockHeight());
-    }, 6000);
+    }, blockInterval);
     return () => clearInterval(interval);
-  });
+  }, []);
 
   return {
     currentBlockHeight,
     currentChainID,
-    currentContractForge
+    currentContractForge,
+    currentContractGovToken
   };
 };
 

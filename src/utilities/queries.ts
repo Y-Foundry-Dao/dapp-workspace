@@ -1,13 +1,13 @@
-import { terra } from "./lcd";
-
+import MyLCD from '@utilities/MyValues';
 // custom queryMsg function
 // takes 2 parameters
 // contractAddress - the contract address we would like to query
 // msgQuery - our query message we want to send to the API
 export const queryMsg = async (contractAddress: string, msgQuery: object) => {
+  const lcd = MyLCD();
   try {
     if (contractAddress) {
-      const queryResponse: any = await terra.wasm.contractQuery(
+      const queryResponse: any = await lcd.wasm.contractQuery(
         contractAddress,
         msgQuery
       );

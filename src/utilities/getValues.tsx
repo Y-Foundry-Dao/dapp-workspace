@@ -1,21 +1,21 @@
 import { chainDeploy } from './variables/blockchain';
-import { useWallet } from '@terra-money/wallet-provider';
+import { useRecoilValueLoadable } from 'recoil';
 
 export const getChainDeploy = (
   chain: string,
-  field: 'lcd' | 'name' | 'forge' | 'token'
+  field: 'forge' | 'token' | 'interval'
 ) => {
   const chainConfig = chainDeploy.find((item) => item.chainID === chain);
   if (chainConfig && chainConfig.config && chainConfig.config[0]) {
-    const result: string = chainConfig.config[0][field];
+    const result: string | number = chainConfig.config[0][field];
+    //console.log('getChainDeploy: ', field, 'is: ', result);
     return result || '';
   }
   return '';
 };
 
 export const GetCurrentChainID = () => {
-  const { network } = useWallet();
-  const chainID = network.chainID;
+  const chainID = 'pisco-1';
   return chainID;
 };
 
