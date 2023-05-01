@@ -3,11 +3,19 @@ import { LCDClient } from '@terra-money/feather.js';
 export const MyLCD = () => {
   return new LCDClient({
     'pisco-1': {
-      lcd: 'https://pisco-lcd.terra.dev',
+      //      lcd: 'https://pisco-lcd.terra.dev',
+      lcd: 'https://pisco-lcd.erisprotocol.com',
       chainID: 'pisco-1',
       gasAdjustment: 1.75,
       gasPrices: { uluna: 0.015 },
       prefix: 'terra' // bech32 prefix, used by the LCD to understand which is the right chain to query
+    },
+    'uni-6': {
+      lcd: 'https://lcd.uni.juno.deuslabs.fi',
+      chainID: 'uni-6',
+      gasAdjustment: 1.75,
+      gasPrices: { uluna: 0.025 },
+      prefix: 'juno'
     },
     'osmosis-1': {
       chainID: 'osmosis-1',
@@ -20,50 +28,5 @@ export const MyLCD = () => {
     }
   });
 };
-
-// export const MyChain = () => {
-//   const chainInfo = useChainInfo();
-//   return chainInfo.currentChainID;
-// };
-
-// export const MyYFD = () => {
-//   const response = useRecoilValueLoadable(selectYFDConnected);
-//   const balance = parseFloat(convertFromBase(response.contents).toFixed(5));
-//   return balance.toString();
-// };
-
-// export const MyFYFD = () => {
-//   const response = useRecoilValueLoadable(selectFYFDConnected);
-//   const balance = parseFloat(convertFromBase(response.contents).toFixed(5));
-//   return balance.toString();
-// };
-
-/*
-export function MyYFD() {
-  return convertFromBase(
-    Number(useRecoilValue(balanceYfdConnectedAtom))
-  ).toFixed(5);
-};
-
-export function MyFYFD() {
-  return convertFromBase(
-    Number(useRecoilValue(balanceFyfdConnectedAtom))
-  ).toFixed(5);
-};
-*/
-
-// export const MyForge = () => {
-//   const [forge, setForge] = useRecoilState(currentContractForgeAtom);
-//   const { currentContractForge } = useChainInfo();
-//   setForge(currentContractForge);
-//   return forge;
-// };
-
-// export const MyGovToken = () => {
-//   const [token, setToken] = useRecoilState(currentContractGovTokenAtom);
-//   const { currentContractGovToken } = useChainInfo();
-//   setToken(currentContractGovToken);
-//   return token;
-// };
 
 export default MyLCD;
